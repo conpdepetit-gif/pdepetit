@@ -499,6 +499,10 @@ h3 {
     margin-top: clamp(40px, 6vw, 72px);
 }
 
+.catalog-subsection.catalog-subsection-first {
+    margin-top: clamp(28px, 4vw, 40px);
+}
+
 .catalog-card {
     overflow: hidden;
 }
