@@ -288,7 +288,7 @@ h3 {
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    animation: carouselFade 15s infinite;
+    animation: carouselFade 25s infinite;
 }
 
 .slide-one {
@@ -301,6 +301,14 @@ h3 {
 
 .slide-three {
     animation-delay: 10s;
+}
+
+.slide-four {
+    animation-delay: 15s;
+}
+
+.slide-five {
+    animation-delay: 20s;
 }
 
 @keyframes carouselFade {
