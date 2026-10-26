@@ -307,10 +307,6 @@ h3 {
     animation-delay: 15s;
 }
 
-.slide-five {
-    animation-delay: 20s;
-}
-
 @keyframes carouselFade {
     0%,
     30% {
