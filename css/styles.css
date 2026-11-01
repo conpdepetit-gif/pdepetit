@@ -288,7 +288,7 @@ h3 {
     height: 100%;
     object-fit: cover;
     opacity: 0;
-    animation: carouselFade 25s infinite;
+    animation: carouselFade 15s infinite;
 }
 
 .slide-one {
