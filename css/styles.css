@@ -80,7 +80,7 @@ a {
 }
 
 .site-nav a,
-.nav-trigger {
+.nav-dropdown-toggle {
     border: 0;
     border-radius: 999px;
     padding: 9px 14px;
@@ -95,16 +95,42 @@ a {
 
 .site-nav a:hover,
 .site-nav a.active,
-.nav-trigger:hover,
-.nav-trigger.active,
-.nav-dropdown:hover .nav-trigger,
-.nav-dropdown.dropdown-open .nav-trigger {
+.nav-dropdown-toggle:hover,
+.nav-trigger.active + .nav-dropdown-toggle,
+.nav-dropdown.dropdown-open > :is(.nav-trigger, .nav-dropdown-toggle) {
     background: var(--white);
     color: var(--plum);
 }
 
 .nav-dropdown {
     position: relative;
+    display: grid;
+    grid-template-columns: auto 36px;
+}
+
+.site-nav .nav-trigger {
+    padding-right: 4px;
+    border-radius: 999px 0 0 999px;
+}
+
+.nav-dropdown-toggle {
+    display: grid;
+    place-items: center;
+    padding: 0;
+    border-radius: 0 999px 999px 0;
+}
+
+.nav-dropdown-toggle::before {
+    content: "";
+    width: 7px;
+    height: 7px;
+    border-right: 2px solid currentColor;
+    border-bottom: 2px solid currentColor;
+    transform: translateY(-2px) rotate(45deg);
+}
+
+.nav-dropdown-toggle[aria-expanded="true"]::before {
+    transform: translateY(2px) rotate(225deg);
 }
 
 .dropdown-menu {
@@ -122,17 +148,13 @@ a {
     box-shadow: var(--shadow);
     opacity: 0;
     pointer-events: none;
-    transform: translateY(4px);
     visibility: hidden;
-    transition: opacity 160ms ease, transform 160ms ease, visibility 160ms ease;
+    transition: opacity 160ms ease, visibility 160ms ease;
 }
 
-.nav-dropdown:hover > .dropdown-menu,
-.nav-dropdown:focus-within > .dropdown-menu,
 .nav-dropdown.dropdown-open > .dropdown-menu {
     opacity: 1;
     pointer-events: auto;
-    transform: translateY(0);
     visibility: visible;
 }
 
@@ -163,8 +185,7 @@ a {
     grid-template-columns: minmax(0, 0.92fr) minmax(320px, 1.08fr);
     gap: clamp(28px, 5vw, 70px);
     align-items: center;
-    min-height: calc(100vh - 76px);
-    padding: clamp(34px, 5vw, 70px) clamp(18px, 5vw, 76px) 40px;
+    padding: clamp(32px, 4vw, 56px) clamp(18px, 5vw, 76px) clamp(20px, 3vw, 36px);
     background:
         linear-gradient(120deg, rgba(251, 246, 239, 0.74), rgba(240, 223, 208, 0.78)),
         url("https://images.unsplash.com/photo-1601162788518-51a2238b6d1d?auto=format&fit=crop&w=1800&q=80");
@@ -275,7 +296,7 @@ h3,
 .hero-media {
     position: relative;
     width: min(100%, 560px);
-    min-height: 560px;
+    min-height: clamp(400px, 38vw, 500px);
     margin-left: auto;
     border-radius: 8px;
     overflow: hidden;
@@ -330,6 +351,7 @@ h3,
     grid-template-columns: 0.8fr 1.2fr;
     gap: clamp(22px, 5vw, 64px);
     align-items: end;
+    padding-block: clamp(28px, 4vw, 48px);
     background: var(--ink);
     color: var(--paper);
 }
@@ -480,8 +502,27 @@ h3,
     padding: clamp(56px, 8vw, 118px) clamp(18px, 5vw, 76px);
 }
 
+.catalog-intro,
+.page-hero,
+.about-hero {
+    padding-block: clamp(36px, 5vw, 72px) clamp(20px, 3vw, 38px);
+}
+
+.catalog-intro + .catalog-section,
+.intro-band + .section,
+.page-hero + .section,
+.about-hero + .section {
+    padding-top: clamp(24px, 4vw, 48px);
+}
+
+.catalog-intro > p:last-child,
+.intro-band > p:last-child,
+.page-hero > p:last-child,
+.about-hero p:last-child {
+    margin-bottom: 0;
+}
+
 .page-hero {
-    min-height: 420px;
     background: linear-gradient(135deg, var(--paper), var(--paper-deep));
 }
 
@@ -495,6 +536,10 @@ h3,
         url("../Imagenes/Maternidad y lactancia/Teta/Teta 5.png");
     background-size: cover;
     background-position: center;
+}
+
+.catalog-section {
+    scroll-margin-top: 76px;
 }
 
 .catalog-section + .catalog-section {
@@ -816,10 +861,6 @@ h3,
         grid-template-columns: 1fr;
     }
 
-    .hero {
-        min-height: auto;
-    }
-
     .hero-media {
         min-height: 460px;
         margin-right: auto;
@@ -865,6 +906,8 @@ h3,
         display: none;
         flex-direction: column;
         align-items: stretch;
+        max-height: calc(100dvh - 90px);
+        overflow-y: auto;
         padding: 12px;
         border: 1px solid var(--line);
         border-radius: 8px;
@@ -882,16 +925,21 @@ h3,
 
     .nav-dropdown {
         width: 100%;
+        grid-template-columns: minmax(0, 1fr) 44px;
     }
 
-    .nav-trigger {
-        width: 100%;
-        text-align: left;
-        border-radius: 6px;
+    .site-nav .nav-trigger {
+        border-radius: 6px 0 0 6px;
+    }
+
+    .nav-dropdown-toggle {
+        min-height: 44px;
+        border-radius: 0 6px 6px 0;
     }
 
     .dropdown-menu {
         position: static;
+        grid-column: 1 / -1;
         min-width: 0;
         margin-top: 6px;
         box-shadow: none;
@@ -899,11 +947,9 @@ h3,
         display: none;
         opacity: 1;
         pointer-events: auto;
-        transform: none;
         visibility: visible;
     }
 
-    .nav-dropdown:focus-within > .dropdown-menu,
     .nav-dropdown.dropdown-open > .dropdown-menu {
         display: grid;
     }

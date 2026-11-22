@@ -21,7 +21,7 @@
     <title>Encargos personalizados y regalos artesanales | P de Petit</title>
     <link rel="canonical" href="https://pdepetit.vercel.app/como-comprar.html">
     <link rel="icon" href="Imagenes/Logo.jpg">
-    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/styles.css?v=20261122">
 </head>
 <body>
     <header class="site-header">
@@ -36,8 +36,10 @@
         <nav class="site-nav" aria-label="Navegación principal">
             <a href="index.html">Inicio</a>
             <div class="nav-dropdown">
-                <button class="nav-trigger" type="button">Catálogo</button>
-                <div class="dropdown-menu">
+                <a class="nav-trigger" href="catalogo.html">Catálogo</a>
+                <button class="nav-dropdown-toggle" type="button" aria-label="Secciones del catálogo"
+                    aria-expanded="false" aria-controls="catalog-menu"></button>
+                <div class="dropdown-menu" id="catalog-menu">
                     <a href="catalogo.html#maternidad">Maternidad y lactancia</a>
                     <a href="catalogo.html#bolsos">Bolsos</a>
                     <a href="catalogo.html#bordados">Bordados</a>
@@ -142,7 +144,7 @@
         <small>© <span data-year></span> P de Petit. Crochet artesanal hecho a mano.</small>
     </footer>
 
-    <script src="js/main.js?v=20260603"></script>
+    <script src="js/main.js?v=20261122"></script>
     <script>
       window.va = window.va || function () { (window.vaq = window.vaq || []).push(arguments); };
     </script>

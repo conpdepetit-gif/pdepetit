@@ -7,7 +7,8 @@ const contact = {
 const header = document.querySelector(".site-header");
 const toggle = document.querySelector(".nav-toggle");
 const dropdown = document.querySelector(".nav-dropdown");
-const dropdownTrigger = document.querySelector(".nav-trigger");
+const dropdownToggle = dropdown?.querySelector(".nav-dropdown-toggle");
+const dropdownMenu = dropdown?.querySelector(".dropdown-menu");
 
 if (header && toggle) {
     toggle.addEventListener("click", () => {
@@ -16,9 +17,55 @@ if (header && toggle) {
     });
 }
 
-if (dropdown && dropdownTrigger) {
-    dropdownTrigger.addEventListener("click", () => {
-        dropdown.classList.toggle("dropdown-open");
+if (dropdown && dropdownToggle && dropdownMenu) {
+    const desktopHover = window.matchMedia("(min-width: 761px) and (hover: hover)");
+    const setDropdownOpen = (isOpen) => {
+        dropdown.classList.toggle("dropdown-open", isOpen);
+        dropdownToggle.setAttribute("aria-expanded", String(isOpen));
+    };
+
+    dropdownToggle.addEventListener("click", () => {
+        setDropdownOpen(!dropdown.classList.contains("dropdown-open"));
+    });
+
+    dropdown.addEventListener("pointerenter", (event) => {
+        if (desktopHover.matches && event.pointerType === "mouse") {
+            setDropdownOpen(true);
+        }
+    });
+
+    dropdown.addEventListener("pointerleave", (event) => {
+        if (desktopHover.matches && event.pointerType === "mouse"
+            && !dropdownMenu.contains(document.activeElement)) {
+            setDropdownOpen(false);
+        }
+    });
+
+    dropdown.addEventListener("focusout", (event) => {
+        if (!dropdown.contains(event.relatedTarget)) {
+            setDropdownOpen(false);
+        }
+    });
+
+    dropdown.addEventListener("keydown", (event) => {
+        if (event.key === "Escape" && dropdown.classList.contains("dropdown-open")) {
+            dropdownToggle.focus();
+            setDropdownOpen(false);
+        }
+    });
+
+    document.addEventListener("click", (event) => {
+        if (!dropdown.contains(event.target)) {
+            setDropdownOpen(false);
+        }
+    });
+
+    dropdownMenu.querySelectorAll("a").forEach((link) => {
+        link.addEventListener("click", () => {
+            setDropdownOpen(false);
+            header?.classList.remove("nav-open");
+            toggle?.setAttribute("aria-expanded", "false");
+        });
     });
 }
 
